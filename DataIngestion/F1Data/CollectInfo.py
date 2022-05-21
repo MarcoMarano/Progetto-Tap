@@ -49,21 +49,10 @@ def CollectSeasonsInfos():
 
 def CollectStageInfoFromStageId():
     conn = http.client.HTTPSConnection("api.sportradar.us")
-    conn.request("GET", "/formula1/trial/v2/en/sport_events/"+CurrentSeasonId+"/summary.json?api_key=" + key)
+    conn.request("GET", "/formula1/trial/v2/en/sport_events/"+"sr:stage:938585"+"/summary.json?api_key=" + key)
     res = conn.getresponse()
     rawdata = res.read()
     return rawdata
-
-
-def CollectMoreINFOFromStageId():
-    conn = http.client.HTTPSConnection("api.sportradar.us")
-
-    conn.request("GET", "/formula1/trial/v2/us/sport_events/"+"sr:stage:324773"+"/probabilities.json?api_key="+ key)
-
-    res = conn.getresponse()
-    data = res.read()
-    return data
-
 
 def ExtractData(RawDataINFO):  #RawDataINFO corrisponde a seasonFile quindi conterra tutte le info 
                                # della stagione attuale
@@ -80,23 +69,14 @@ def ExtractData(RawDataINFO):  #RawDataINFO corrisponde a seasonFile quindi cont
 # SeasonINFO = CollectStageInfoFromStageId()
 
 
-InFile = open("F1LiveData.json")
-SeasonFIle = json.loads(InFile.read())
-
-outFile = open("Info.json","w")
-data = CollectMoreINFOFromStageId()
-
-info = json.loads(data)
-outFile.write(json.dumps(info))
 
 
+SeasonINFO = CollectStageInfoFromStageId()
 
+data = json.loads(SeasonINFO)
 
-
-
-
-
-
+ndata = json.dumps(data)
+print(ndata)
 
 
 
